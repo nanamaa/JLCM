@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UNA HUELLA MÁS DE NUESTRO AMOR</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(45deg, #1a0022, #2c003a, #4a0072);
+      overflow: hidden;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Arial', sans-serif;
+      color: white;
+      perspective: 1200px;
+    }
+
+    .scene {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Corazón central perfectamente centrado */
+ .heart-container {
+  position: absolute;
+  top: 20%;
+  left: 25%;
+  transform: translate(-30%, -30%) rotate(0deg) translateZ(0px);
+  width: 500px;
+  height: 500px;
+  animation: heartbeat 1.5s infinite ease-in-out;
+  filter: drop-shadow(0 0 30px rgba(255, 0, 85, 0.9));
+}
+
+    .heart {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background-color: #ff2a6b;
+      transform: rotate(-45deg);
+    }
+
+    .heart:before,
+    .heart:after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: #ff2a6b;
+      border-radius: 50%;
+    }
+
+    .heart:before {
+      top: -50%;
+      left: 0;
+    }
+
+    .heart:after {
+      top: 0;
+      right: -50%;
+    }
+
+    /* Contenedor del carrusel 3D - centrado perfectamente */
+   .carousel-3d {
+  position: absolute;
+  top: 50%;
+  left: 55%;
+  transform: translate(-30%, -30%);
+  transform-style: preserve-3d;
+  width: 1600px;
+  height: 1600px;
+}
+
+    /* Anillo de imágenes en 3D */
+    .ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  transform-style: preserve-3d;
+  animation: spin 90s infinite linear; /* Rotación constante */
+}
+
+@keyframes spin {
+      from {
+        transform: rotateY(0deg);
+      }
+      to {
+        transform: rotateY(360deg);
+      }
+    }
+
+    /* Imágenes en 3D - más grandes (1/4 de pantalla laptop) */
+    .slide {
+      position: absolute;
+      width: 500px;
+      height: 300px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
+      border: 8px solid white;
+      transition: all 0.5s ease;
+      transform-style: preserve-3d;
+      backface-visibility: visible;
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+
+    .slide:hover {
+      transform: scale(1.15) translateZ(50px);
+      z-index: 30;
+      box-shadow: 0 0 45px rgba(255, 105, 180, 1);
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Dedicatoria en forma de nota 10x20cm, a la derecha */
+    .dedicatoria {
+    position: fixed;
+    bottom: 50px;     /* un poco separada de abajo */
+    right: 50px;      /* pegada a la derecha */
+    width: 50cm;      /* ancho fijo */
+    height: 20cm;     /* alto fijo */
+    background: linear-gradient(to bottom, rgba(233, 153, 219, 0.95), rgba(184, 190, 255, 0.95));
+    color: #333;
+    padding: 20px;
+    font-size: 28px;
+    line-height: 1.5;
+    z-index: 1000;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+    border: 3px dashed #dcff6b;
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-y: auto; /* si el texto excede, agrega scroll */
+    border-radius: 12px;
+    }
+
+
+    .dedicatoria h3 {
+      margin-bottom: 30px;
+      color: #d135e5c8;
+      font-size: 50px;
+      border-bottom: 2px dotted #f7b7f4;
+      padding-bottom: 10px;
+    }
+
+    .dedicatoria p {
+      margin: 10px 0;
+      text-align: center;
+      max-width: 900px;
+    }
+
+    .dedicatoria .corazon {
+      color: #ff2a6b;
+      font-size: 28px;
+      margin: 0 5px;
+    }
+
+    /* Reproductor de música */
+    .music-player {
+      position: fixed;
+      top: 1600px;
+      left: 80px;
+      width: 650px;
+      height: 300px;
+      background: rgba(202, 20, 171, 0.8);
+      border-radius: 15px;
+      z-index: 1000;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+      border: 3px solid rgba(39, 36, 36, 0.8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .player-title {
+      margin-bottom: 10px;
+      font-size: 30px;
+      color: #111111;
+    }
+
+    .music-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .music-btn {
+      background: rgba(156, 107, 255, 0.748);
+      border: none;
+      color: white;
+      font-size: 32px;
+      cursor: pointer;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.3s;
+    }
+
+    .music-btn:hover {
+      background: rgba(245, 255, 107, 0.855);
+      transform: scale(1.1);
+    }
+
+    .progress-container {
+      width: 80%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .progress {
+      height: 100%;
+      background: linear-gradient(to right, #5c2aff, #6bd5ff);
+      border-radius: 4px;
+      width: 0%;
+    }
+
+    /* Efectos de partículas */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+      animation: float 30s infinite linear;
+    }
+
+    /* Responsivo */
+    @media (max-width: 1200px) {
+      .carousel-3d {
+        width: 1200px;
+        height: 1200px;
+      }
+      
+      .slide {
+        width: 350px;
+        height: 200px;
+      }
+      
+      .dedicatoria {
+        font-size: 20px;
+        padding: 15px 30px;
+      }
+      
+      .dedicatoria h3 {
+        font-size: 24px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .carousel-3d {
+        width: 1000px;
+        height: 500px;
+      }
+      
+      .slide {
+        width: 300px;
+        height: 160px;
+      }
+      
+      .dedicatoria {
+        font-size: 20px;
+        padding: 10px 20px;
+        height: 30vh;
+      }
+      
+      .dedicatoria h3 {
+        font-size: 22px;
+      }
+      
+      .music-player {
+        width: 250px;
+        height: 90px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .heart-container {
+        width: 200px;
+        height: 200px;
+      }
+      
+      .carousel-3d {
+        width: 800px;
+        height: 800px;
+      }
+      
+      .slide {
+        width: 200px;
+        height: 120px;
+      }
+      
+      .dedicatoria {
+        font-size: 14px;
+        padding: 10px;
+        height: 35vh;
+      }
+      
+      .dedicatoria h3 {
+        font-size: 20px;
+      }
+      
+      .music-player {
+        width: 200px;
+        height: 80px;
+        top: 10px;
+        left: 10px;
+      }
+      
+      .music-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+      }
+    }
+
+    /* Animaciones */
+    @keyframes heartbeat {
+      0% { transform: translate(-50%, -50%) scale(1); }
+      15% { transform: translate(-50%, -50%) scale(1.1); }
+      30% { transform: translate(-50%, -50%) scale(1); }
+      45% { transform: translate(-50%, -50%) scale(1.1); }
+      60% { transform: translate(-50%, -50%) scale(1); }
+      100% { transform: translate(-50%, -50%) scale(1); }
+    }
+
+    
+
+    @keyframes float {
+      0%, 100% { 
+        transform: translateY(0) rotate(0deg); 
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="scene">
+    
+    <!-- Carrusel 3D de imágenes - centrado en el mismo eje que el corazón -->
+    <div class="carousel-3d">
+        <div class="heart-container">
+            <div class="heart"></div>
+        </div>
+
+        <div class="ring">
+            <!-- Imágenes se insertarán aquí -->
+        </div>
+    </div>
+    
+    <!-- Efecto de partículas -->
+    <div class="particles" id="particles"></div>
+  </div>
+
+  <!-- Dedicatoria horizontal en la parte inferior (1/4 de pantalla) -->
+  <div class="dedicatoria">
+    <h3>🩵🩷♾️FELIZ UN AÑO DE ANIVERSARIO MI LUIS🩵🩷♾️</h3>
+    <p>Hoy fue el día en el que habría un cambio significativo, yo estaba nerviosa pero aún así pude ver
+        la señal de Dios, ya no quise dejar de lado lo que realmente signifcabas para mí, este amor por ti
+        fue creciendo y se hizo más grande, ambos hemos sido valientes.
+    </p>
+    <p>Ya que de eso se trata el amor y de elegirse todos los días, a través de las pruebas y en disposición,
+        porque ningún ser humano es perfecto, y por eso encontramos quién nos ame con virtudes y defectos,
+        que sin embargo buscamos dar lo mejor de nosotros mismos cuando encontramos a la PERSONA. 
+    </p>
+    <p>Y quiero decirte eso Mi Vida, eres MI PERSONA, desde aquella conexión, desde la promesa de volvernos a encontrar,
+        desde la vez que nuestras manos se tocaron por primera vez, desde la vez que nos despedimos con un abrazo, en el
+        momento que nos quedamos hasta tarde en la parada del transporte, cuando me besaste la mejilla esa vez, cuando no
+        me gustaba verte llorar, cuando siempre pensé y esperaba que todo fuera muy bien para ti apesar de todo❤️‍🩹💗💓🥹
+    </p>
+    <p>🫀🤍Agradezco a Dios por unirnos de nuevo, porque sigamos aprendiendo de mejor manera sus enseñanzas,
+        porque ambos sigamos cuidando de nuestra relación de una mejor manera, con comprensión y respeto mutuos,
+        porque quiero CASARME CONTIGO Y ESTAR ETERNAMENTE SIEMPRE JUNTOS, en nuestro hogar lleno de amor y sanación, 
+        aún después de la vida, en el Universo, en cualquier forma de existencia 🫀🤍
+        Gracias por brindarme tu amor, tu espacio, tu tiempo y estar para mí, eres una persona excepcional y muy amorosa,
+        gracias por ser también como eres y que sepas que TE AMO EN CADA UNA DE TUS VERSIONES Y A TU SER 🤍🤍🤍🤍
+    </p>
+    <p>Esta animación y fotos representan una parte de nuestra historia, y son testigos del crecimiento
+        de este amor "El amor es paciente, es bondadoso. El amor no es envidioso ni jactancioso ni orgulloso.
+        No se comporta con rudeza, no es egoísta, no se enoja fácilmente, no guarda rencor.
+        El amor no se deleita en la maldad, sino que se regocija con la verdad.
+        Todo lo disculpa, todo lo cree, todo lo espera, todo lo soporta."
+    </p>
+    <p>🤍❤️‍🩹🩷Eres la luz que ilumina mis días más oscuros, la razón por la que mi corazón late con tanta fuerza y mi alma se regocija.</p>
+    <p>Con todo mi amor, <span class="corazon">🤍❤️‍🩹🩷</span> TE AMO MUCHO MI ESPOSO</p>
+  </div>
+
+  <!-- Reproductor de música -->
+  <div class="music-player">
+    <div class="player-title">TIL KINGDOM COME</div>
+    <div class="music-controls">
+      <button class="music-btn" id="playBtn">▶️</button>
+      <button class="music-btn" id="pauseBtn">⏸️</button>
+    </div>
+    <div class="progress-container" id="progressContainer">
+      <div class="progress" id="progress"></div>
+    </div>
+  </div>
+
+  <!-- Música de fondo -->
+  <audio id="music" loop>
+    <source src="assets/cancion.mp3" type="audio/mpeg">
+    Tu navegador no soporta el elemento de audio.
+  </audio>
+
+  <script>
+    // Configuración
+    const totalSlides = 22;
+    
+    // Elementos DOM
+    const ring = document.querySelector('.ring');
+    const music = document.getElementById('music');
+    const playBtn = document.getElementById('playBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
+    const progress = document.getElementById('progress');
+    const progressContainer = document.getElementById('progressContainer');
+    const particlesContainer = document.getElementById('particles');
+    
+    // Crear efecto de partículas
+    function createParticles() {
+      const particleCount = 100;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        const size = Math.random() * 10 + 2;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        particle.style.left = `${Math.random() * 100}vw`;
+        particle.style.top = `${Math.random() * 100}vh`;
+        
+        const duration = Math.random() * 100 + 15;
+        particle.style.animationDuration = `${duration}s`;
+        
+        particle.style.animationDelay = `-${Math.random() * 20}s`;
+        
+        particlesContainer.appendChild(particle);
+      }
+    }
+    
+    // Crear las imágenes en el anillo
+    function createSlides() {
+      for (let i = 1; i <= totalSlides; i++) {
+        const slide = document.createElement('div');
+        slide.classList.add('slide');
+        
+        const img = document.createElement('img');
+        // En producción, reemplazar con: img.src = `assets/im${i}.jpg`;
+        img.src = `assets/im${i}.jpg`;
+        img.alt = `Imagen ${i}`;
+        
+        slide.appendChild(img);
+        
+        // Calcular ángulo para distribuir uniformemente 22 imágenes
+        const angle = (360 / totalSlides) * (i - 1);
+        slide.style.transform = `rotateY(${angle}deg) translateZ(2000px)`;
+        
+        ring.appendChild(slide);
+      }
+    }
+    
+    // Actualizar barra de progreso
+    function updateProgress() {
+      const percent = (music.currentTime / music.duration) * 100;
+      progress.style.width = `${percent}%`;
+    }
+    
+    // Establecer progreso al hacer clic
+    function setProgress(e) {
+      const width = this.clientWidth;
+      const clickX = e.offsetX;
+      const duration = music.duration;
+      
+      music.currentTime = (clickX / width) * duration;
+    }
+    
+    // Controles de música
+    playBtn.addEventListener('click', () => {
+      music.play();
+    });
+    
+    pauseBtn.addEventListener('click', () => {
+      music.pause();
+    });
+    
+    // Eventos de la barra de progreso
+    music.addEventListener('timeupdate', updateProgress);
+    progressContainer.addEventListener('click', setProgress);
+    
+    // Inicializar
+    function init() {
+      createParticles();
+      createSlides();
+      
+      // Intentar reproducir automáticamente
+      music.volume = 0.7;
+      music.play().catch(e => {
+        console.log('La reproducción automática fue prevenida: ', e);
+      });
+    }
+
+    
+    // Iniciar cuando el documento esté cargado
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
